@@ -1,0 +1,96 @@
+//c++
+class Solution
+{
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n)
+    {
+        ListNode** t1 = &head, *t2 = head;
+        for(int i = 1; i < n; ++i)
+        {
+            t2 = t2->next;
+        }
+        while(t2->next != NULL)
+        {
+            t1 = &((*t1)->next);
+            t2 = t2->next;
+        }
+        *t1 = (*t1)->next;
+        return head;
+    }
+};
+
+
+ListNode *removeNthFromEnd(ListNode *head, int n) 
+{
+    if (!head)
+        return nullptr;
+
+    ListNode new_head(-1);
+    new_head.next = head;
+
+    ListNode *slow = &new_head, *fast = &new_head;
+
+    for (int i = 0; i < n; i++)
+        fast = fast->next;
+
+    while (fast->next) 
+    {
+        fast = fast->next;
+        slow = slow->next;
+    }
+
+    ListNode *to_de_deleted = slow->next;
+    slow->next = slow->next->next;
+    
+    delete to_be_deleted;
+
+    return new_head.next;
+}
+
+
+
+ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
+    ListNode *slow=A, *prevslow=A, *fast=A;
+    int flag = 0;
+    //set location of fast ptr
+    
+    for(int i = 0; i < B; i++){
+        fast = fast->next;
+        if(fast == NULL){
+            flag = 1;
+            break;
+        }
+    }
+    
+    // if B > list size remove head element 
+    if(flag) return A->next;
+    
+    // finding nth from last
+    while(fast != NULL){
+        fast = fast->next;
+        prevslow = slow;
+        slow = slow->next;
+    }
+    // slow ptr points to val to remove
+    prevslow->next = slow->next;
+    //slow->next = NULL;
+    delete slow;
+    return A;
+}
+
+
+//java
+
+public ListNode RemoveNthFromEnd(ListNode head, int n) {
+    ListNode h1=head, h2=head;
+    while(n-->0) h2=h2.next;
+    if(h2==null)return head.next;  // The head need to be removed, do it.
+    h2=h2.next;
+    
+    while(h2!=null){
+        h1=h1.next;
+        h2=h2.next;
+    }
+    h1.next=h1.next.next;   // the one after the h1 need to be removed
+    return head;
+}

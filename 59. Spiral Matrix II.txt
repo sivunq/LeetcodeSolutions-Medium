@@ -1,0 +1,146 @@
+vector<vector<int>> generateMatrix(int n) {
+    vector<vector<int>> res(n, vector<int> (n, 1));
+    int left, right, top, down, index;
+    left = top = index = 0, right = down = n-1;
+    while (left <= right && top <= down) {
+        for (unsigned int j = left; j <= right; j++)
+            res[top][j] = ++index;
+        top++;
+        for (unsigned int i = top; i <= down; i++)
+            res[i][right] = ++index;
+        right--;
+        for (int j = right; j >= left; j--)
+            res[down][j] = ++index;
+        down--;
+        for (int i = down; i >= top; i--)
+            res[i][left] = ++index;
+        left++;
+    }
+    return res;
+}
+
+
+
+class Solution {
+    public:
+        vector<vector<int> > generateMatrix(int n) {
+            vector<vector<int> > ret( n, vector<int>(n) );
+        	int k = 1, i = 0;
+        	while( k <= n * n )
+        	{
+        		int j = i;
+                    // four steps
+        		while( j < n - i )             // 1. horizonal, left to right
+        			ret[i][j++] = k++;
+        		j = i + 1;
+        		while( j < n - i )             // 2. vertical, top to bottom
+        			ret[j++][n-i-1] = k++;
+        		j = n - i - 2;
+        		while( j > i )                  // 3. horizonal, right to left 
+        			ret[n-i-1][j--] = k++;
+        		j = n - i - 1;
+        		while( j > i )                  // 4. vertical, bottom to  top 
+        			ret[j--][i] = k++;
+        		i++;      // next loop
+        	}
+        	return ret;
+        }
+    };
+	
+	
+class Solution {
+public:
+    vector<vector<int> > generateMatrix(int n) {
+        vector<vector<int> > res(n,vector<int>(n));
+        int i=0,j=0,cur=1;
+        while(n>0){
+            res[i][j]=cur++;
+            n--;
+            int step=n;
+            while(step>0){
+                res[i][++j]=cur++;
+                step--;
+            }
+            step=n;
+            while(step>0){
+                res[++i][j]=cur++;
+                step--;
+            }
+            step=n--;
+            while(step>0){
+                res[i][--j]=cur++;
+                step--;
+            }
+            step=n;
+            while(step>0){
+                res[--i][j]=cur++;
+                step--;
+            }
+            j++;
+        }
+        return res;
+    }
+};
+
+
+
+class Solution {
+public:
+    vector<vector<int> > generateMatrix(int n) {
+        vector<vector<int> > vv(n, vector<int>(n));
+    
+        int rowStart = 0, rowEnd = n - 1;
+        int colStart = 0, colEnd = n - 1;
+        int cnt = 1;
+    
+        while(rowStart <= rowEnd && colStart <= colEnd)
+        {
+            for(int i = colStart; i<= colEnd; i++)
+                vv[rowStart][i] = cnt++;
+            rowStart++;
+        
+            for(int i = rowStart; i<= rowEnd; i++)
+                vv[i][colEnd] = cnt++;
+            colEnd--;
+        
+            for(int i = colEnd; i>= colStart; i--)
+                vv[rowEnd][i] = cnt++;
+            rowEnd--;
+        
+            for(int i = rowEnd; i>= rowStart; i--)
+                vv[i][colStart] = cnt++;
+            colStart++;
+        }
+    
+        return vv;
+    }
+};
+
+
+
+class Solution {
+public:
+
+    int floorMod(int x, int y) {
+        return ((x % y) + y) % y;
+    }
+
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> result (n, vector<int>(n));
+        int cnt = 1;
+        int dir[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+       int d = 0;
+        int row = 0;
+        int col = 0;
+        while (cnt <= n * n) {
+            result[row][col] = cnt++;
+            int r = floorMod(row + dir[d][0], n);
+            int c = floorMod(col + dir[d][1], n);
+            // change direction if next cell is non zero
+            if (result[r][c] != 0) d = (d + 1) % 4;
+            row += dir[d][0];
+            col += dir[d][1];
+        }
+        return result;
+    }
+};
